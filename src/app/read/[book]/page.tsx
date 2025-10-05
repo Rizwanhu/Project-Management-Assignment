@@ -1,11 +1,10 @@
 import { appData } from "@/data/demo";
 import Link from "next/link";
 
-type Params = { params: { book: string } };
-
-export default function BookPage({ params }: Params) {
+export default async function BookPage({ params }: { params: Promise<{ book: string }> }) {
+  const { book: bookId } = await params;
   const topic = appData.topics[0];
-  const book = topic.books.find((b) => b.id === params.book);
+  const book = topic.books.find((b) => b.id === bookId);
   if (!book) {
     return <div>Book not found.</div>;
   }

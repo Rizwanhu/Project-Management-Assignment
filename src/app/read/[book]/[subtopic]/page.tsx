@@ -1,12 +1,11 @@
 import { appData } from "@/data/demo";
 import Link from "next/link";
 
-type Params = { params: { book: string; subtopic: string } };
-
-export default function SubtopicPage({ params }: Params) {
+export default async function SubtopicPage({ params }: { params: Promise<{ book: string; subtopic: string }> }) {
+  const { book: bookId, subtopic: subtopicId } = await params;
   const topic = appData.topics[0];
-  const book = topic.books.find((b) => b.id === params.book);
-  const sub = book?.subtopics.find((s) => s.id === params.subtopic);
+  const book = topic.books.find((b) => b.id === bookId);
+  const sub = book?.subtopics.find((s) => s.id === subtopicId);
   if (!book || !sub) return <div>Subtopic not found.</div>;
   return (
     <div className="space-y-6">
